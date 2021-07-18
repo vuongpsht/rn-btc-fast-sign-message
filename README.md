@@ -1,6 +1,8 @@
-# react-native-bitcoin
+# rn-btc-fast-sign-message
 
-bitcoin utils 
+bitcoin sign utils 
+
+small lib to make sign message and access wallet from mnemonic
 
 ## Installation
 
@@ -15,7 +17,7 @@ import Bitcoin from "react-native-bitcoin";
 
 // ...
 
-const result = await Bitcoin.multiply(3, 7);
+const mnemonics = Bitcoin.generateMnemonic(16) // <- lengt of randombytes
 ```
 
 ## Contributing
