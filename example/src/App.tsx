@@ -14,7 +14,7 @@ export default function App() {
     Bitcoin.multiply(3, 7).then(setResult);
     Bitcoin.generateMnemonic(16).then(console.log);
     Bitcoin.mnemonicToWallet(mnemonics, PATH);
-    Bitcoin.signMessage(msg, "KzyVb89S5G5XbFoMxfwfk6hq77gNPWaHwBroZL1oUmbk6CcKeQix")
+    // Bitcoin.signMessage(msg, "KzyVb89S5G5XbFoMxfwfk6hq77gNPWaHwBroZL1oUmbk6CcKeQix")
   }, []);
 
   return (
