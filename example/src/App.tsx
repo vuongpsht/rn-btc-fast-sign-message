@@ -7,7 +7,9 @@ export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
 
   React.useEffect(() => {
+    console.log({ Bitcoin });
     Bitcoin.multiply(3, 7).then(setResult);
+    Bitcoin.generateMnemonic(16).then(console.log);
   }, []);
 
   return (
