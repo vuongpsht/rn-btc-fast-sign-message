@@ -1,4 +1,4 @@
-# react-native-bitcoin
+# rn-btc-fast-sign-message
 
 bitcoin sign utils 
 
