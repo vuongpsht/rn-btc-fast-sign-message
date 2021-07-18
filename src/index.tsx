@@ -5,6 +5,7 @@ type BitcoinType = {
   signMessage(): Promise<string>;
   generateMnemonic(length: number): Promise<string>;
   mnemonicToWallet(mnemonic: string, path: string): Promise<null>;
+  // signMessage(msg: string, privateKey: string): Promise<string>;
 };
 
 const { Bitcoin } = NativeModules;
