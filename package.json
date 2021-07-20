@@ -29,7 +29,8 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn"
+    "bootstrap": "yarn example && yarn",
+    "r": "yarn bootstrap && yarn example android"
   },
   "keywords": [
     "react-native",

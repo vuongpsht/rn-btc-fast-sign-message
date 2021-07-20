@@ -8,18 +8,15 @@ const msg = "this is my simple message"
 const PATH = "m/84'/0'/0'/0/0"
 const mnemonics = 'machine stereo slide remember hover later stove render minor goat tissue buddy'
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
 
   React.useEffect(() => {
-    Bitcoin.multiply(3, 7).then(setResult);
     Bitcoin.generateMnemonic(16).then(console.log);
-    Bitcoin.mnemonicToWallet(mnemonics, PATH);
-    // Bitcoin.signMessage(msg, "KzyVb89S5G5XbFoMxfwfk6hq77gNPWaHwBroZL1oUmbk6CcKeQix")
+    Bitcoin.mnemonicToWallet(mnemonics, PATH).then(console.log);
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Result: </Text>
     </View>
   );
 }

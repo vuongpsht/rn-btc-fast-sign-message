@@ -8,7 +8,6 @@ interface WalletInfo {
 }
 
 type BitcoinType = {
-  multiply(a: number, b: number): Promise<number>;
   // signMessage(): Promise<string>;
   generateMnemonic(length: number): Promise<WalletInfo>;
   mnemonicToWallet(mnemonic: string, path: string): Promise<WalletInfo>;

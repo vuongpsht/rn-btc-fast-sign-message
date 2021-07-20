@@ -6,6 +6,9 @@ import fr.acinq.bitcoin.MnemonicCode.toMnemonics
 import java.lang.Exception
 import kotlin.random.Random
 import fr.acinq.bitcoin.Bitcoin.computeBIP84Address
+import okio.ByteString
+import org.bitcoin.NativeSecp256k1
+import org.bitcoinj.core.ECKey
 import java.nio.Buffer
 import java.nio.charset.Charset
 
@@ -52,13 +55,19 @@ class BitcoinModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
   fun _mnemonicToWallet(mnemonic: String, path: String): WritableMap {
     val seed = MnemonicCode.toSeed(mnemonic, "")
     val master = DeterministicWallet.generate(seed)
-    val account = DeterministicWallet.derivePrivateKey(master, KeyPath(path))
-
+    val path = KeyPath(path)
+    val account = DeterministicWallet.derivePrivateKey(master, path)
+    val bip32Account = DeterministicWallet.derivePrivateKey(master, KeyPath("m/0'/0'"))
+    val xprv = DeterministicWallet.encode(master, testnet = false)
+    println("xprv $xprv")
+    println("bip32Account $path")
+    println("account $account")
     val address = computeBIP84Address(account.publicKey, Block.LivenetGenesisBlock.hash)
     return Arguments.createMap().apply {
       putString("address", address)
       putString("publicKey", account.publicKey.toString())
       putString("privateKey", account.privateKey.toBase58(Base58.Prefix.SecretKey))
+      putString("root32xprv", xprv)
     }
   }
 
@@ -69,8 +78,8 @@ class BitcoinModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
     else throw Exception("Invalid path")
   }
 
-//  @ReactMethod
-//  fun signMessage(msg: String, privateKey: String, promise: Promise) {
+  @ReactMethod
+  fun signMessage(msg: String, privateKey: String, promise: Promise) {
 //    val prk = PrivateKey.fromBase58(privateKey, Base58.Prefix.SecretKey).first
 //    val pub = prk.publicKey()
 //
@@ -79,9 +88,11 @@ class BitcoinModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
 //    val message = Crypto.sha256(messageBuff)
 //    println("message ${message.joinToString(" ")}")
 //
-//    val signature = Crypto.sign(message, prk)
+////    val signature = Crypto.sign(message, prk)
+//    val signature = NativeSecp256k1.sign(message, privateKey.toByteArray(Charset.defaultCharset()))
 //    println("messageBuff ${signature}")
 //    println("pub ${pub}")
 //    promise.resolve("ahihi")
-//  }
+//    val ecKey: ECKey = ECKey.
+  }
 }

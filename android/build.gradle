@@ -11,6 +11,7 @@ buildscript {
     classpath 'com.android.tools.build:gradle:3.2.1'
     // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
   }
 }
 
@@ -129,4 +130,5 @@ dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation("fr.acinq.bitcoin:bitcoin-kmp-jvm:0.7.1")
   implementation 'fr.acinq.secp256k1:secp256k1-kmp-jni-android:0.5.2'
+  compile 'org.bitcoinj:bitcoinj-core:0.15.10'
 }
