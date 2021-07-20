@@ -4,7 +4,8 @@ interface WalletInfo {
   address: string,
   mnemonics: string,
   privateKey: string,
-  publicKey: string
+  publicKey: string,
+  root32xprv: string
 }
 
 type BitcoinType = {
