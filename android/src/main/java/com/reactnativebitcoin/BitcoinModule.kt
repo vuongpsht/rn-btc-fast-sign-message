@@ -20,16 +20,6 @@ class BitcoinModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
     return "Bitcoin"
   }
 
-  // Example method
-  // See https://reactnative.dev/docs/native-modules-android
-  @ReactMethod
-  fun multiply(a: Int, b: Int, promise: Promise) {
-
-    promise.resolve(a * b)
-
-  }
-
-
   @ReactMethod
   fun generateMnemonic(length: Int = 16, promise: Promise) {
     val random = Random
@@ -47,8 +37,8 @@ class BitcoinModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
 
 
   @ReactMethod
-  fun mnemonicToWallet(mnemonic: String, path: String, promise: Promise) {
-    val wallet = _mnemonicToWallet(mnemonic, path)
+  fun mnemonicToWallet(mnemonic: String, promise: Promise) {
+    val wallet = _mnemonicToWallet(mnemonic, PATH)
     promise.resolve(wallet)
   }
 
@@ -57,11 +47,7 @@ class BitcoinModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
     val master = DeterministicWallet.generate(seed)
     val path = KeyPath(path)
     val account = DeterministicWallet.derivePrivateKey(master, path)
-    val bip32Account = DeterministicWallet.derivePrivateKey(master, KeyPath("m/0'/0'"))
     val xprv = DeterministicWallet.encode(master, testnet = false)
-    println("xprv $xprv")
-    println("bip32Account $path")
-    println("account $account")
     val address = computeBIP84Address(account.publicKey, Block.LivenetGenesisBlock.hash)
     return Arguments.createMap().apply {
       putString("address", address)
@@ -71,28 +57,11 @@ class BitcoinModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
     }
   }
 
+
   fun getPath(path: String): Int {
     if (path.contains("m/44")) return DeterministicWallet.tpub
     if (path.contains("m/49")) return DeterministicWallet.upub
     if (path.contains("m/84")) return DeterministicWallet.zpub
     else throw Exception("Invalid path")
-  }
-
-  @ReactMethod
-  fun signMessage(msg: String, privateKey: String, promise: Promise) {
-//    val prk = PrivateKey.fromBase58(privateKey, Base58.Prefix.SecretKey).first
-//    val pub = prk.publicKey()
-//
-//    val messageBuff = msg.toByteArray(Charset.forName("UTF-8"))
-//    println("messageBuff ${messageBuff}")
-//    val message = Crypto.sha256(messageBuff)
-//    println("message ${message.joinToString(" ")}")
-//
-////    val signature = Crypto.sign(message, prk)
-//    val signature = NativeSecp256k1.sign(message, privateKey.toByteArray(Charset.defaultCharset()))
-//    println("messageBuff ${signature}")
-//    println("pub ${pub}")
-//    promise.resolve("ahihi")
-//    val ecKey: ECKey = ECKey.
   }
 }

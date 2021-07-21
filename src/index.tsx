@@ -9,10 +9,8 @@ interface WalletInfo {
 }
 
 type BitcoinType = {
-  // signMessage(): Promise<string>;
   generateMnemonic(length: number): Promise<WalletInfo>;
-  mnemonicToWallet(mnemonic: string, path: string): Promise<WalletInfo>;
-  // signMessage(msg: string, privateKey: string): Promise<string>;
+  mnemonicToWallet(mnemonic: string): Promise<WalletInfo>;
 };
 
 const { Bitcoin } = NativeModules;

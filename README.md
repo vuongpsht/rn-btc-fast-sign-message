@@ -1,18 +1,18 @@
 # rn-btc-fast-sign-message
 
-bitcoin sign utils 
+bitcoin sign utils
 
 small lib to make sign message and access wallet from mnemonic based on [bitcoin-kmp](https://github.com/ACINQ/bitcoin-kmp)
 
 ## Installation
 
 ```sh
-npm install react-native-bitcoin
+npm install https://github.com/vuongpsht/rn-btc-fast-sign-message.git
 ```
 
 ## Usage
 
-```js
+```ts
 import Bitcoin from "react-native-bitcoin";
 
 interface WalletInfo {
@@ -29,7 +29,7 @@ const wallet: WalletInfo = await Bitcoin.generateMnemonic(16) // <- lengt of ran
 
 // or
 const mnemonics = "whip position jazz switch where cupboard leader slice nephew unusual hand maple"
-const wallet: WalletInfo = await Bitcoin.mnemonicToWallet()
+const walletFromMnemonic: WalletInfo = await Bitcoin.mnemonicToWallet(mnemonics)
 
 //  address: "bc1q2cxk23lns53p6y5f7ht2kf04r7myr06w0uh3su", <- address as bip84
 //  mnemonics: "whip position jazz switch where cupboard leader slice nephew unusual hand maple", <- mnemonic when generate
