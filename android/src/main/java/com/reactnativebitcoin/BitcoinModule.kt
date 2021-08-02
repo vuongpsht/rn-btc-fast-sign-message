@@ -6,11 +6,6 @@ import fr.acinq.bitcoin.MnemonicCode.toMnemonics
 import java.lang.Exception
 import kotlin.random.Random
 import fr.acinq.bitcoin.Bitcoin.computeBIP84Address
-import okio.ByteString
-import org.bitcoin.NativeSecp256k1
-import org.bitcoinj.core.ECKey
-import java.nio.Buffer
-import java.nio.charset.Charset
 
 val PATH = "m/84'/0'/0'/0/0"
 
