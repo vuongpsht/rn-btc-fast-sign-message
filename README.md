@@ -2,7 +2,8 @@
 
 bitcoin sign utils
 
-small lib to make sign message and access wallet from mnemonic based on [bitcoin-kmp](https://github.com/ACINQ/bitcoin-kmp)
+small lib to make sign message and access wallet from mnemonic based on
+bip32 & bip39 from [NovaCrypto](https://github.com/NovaCrypto)
 
 ## Installation
 
@@ -25,7 +26,7 @@ interface WalletInfo {
 
 // ...
 
-const wallet: WalletInfo = await Bitcoin.generateMnemonic(16) // <- lengt of randombytes
+const wallet: WalletInfo = await Bitcoin.generateMnemonic() 
 
 // or
 const mnemonics = "whip position jazz switch where cupboard leader slice nephew unusual hand maple"
