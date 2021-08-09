@@ -1,13 +1,16 @@
 package com.reactnativebitcoin
 
 import com.facebook.react.bridge.*
-import fr.acinq.bitcoin.*
-import fr.acinq.bitcoin.MnemonicCode.toMnemonics
-import java.lang.Exception
-import kotlin.random.Random
-import fr.acinq.bitcoin.Bitcoin.computeBIP84Address
+import io.github.novacrypto.bip32.ExtendedPrivateKey
+import io.github.novacrypto.bip32.networks.Bitcoin
+import io.github.novacrypto.bip39.MnemonicGenerator
+import io.github.novacrypto.bip39.SeedCalculator
+import io.github.novacrypto.bip39.Words
+import io.github.novacrypto.bip39.wordlists.English
+import java.lang.StringBuilder
+import java.security.SecureRandom
 
-val PATH = "m/84'/0'/0'/0/0"
+val PATH = "m/0'/0'"
 
 class BitcoinModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -17,16 +20,13 @@ class BitcoinModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
 
   @ReactMethod
   fun generateMnemonic(length: Int = 16, promise: Promise) {
-    val random = Random
-    val entropy = ByteArray(length)
-    random.nextBytes(entropy)
-    val mnemonicsList = toMnemonics(entropy)
-    val mnemonics = mnemonicsList.joinToString(" ")
-    val wallet = _mnemonicToWallet(mnemonics, PATH)
-    wallet.apply {
-      putString("mnemonics", mnemonics)
-    }
-
+    val sb = StringBuilder()
+    val entropy = ByteArray(Words.TWELVE.byteLength())
+    val sr = SecureRandom()
+    sr.nextBytes(entropy)
+    MnemonicGenerator(English.INSTANCE)
+      .createMnemonic(entropy, { sb.append(it) })
+    val wallet = _mnemonicToWallet(sb.toString(), PATH)
     promise.resolve(wallet)
   }
 
@@ -38,25 +38,12 @@ class BitcoinModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
   }
 
   fun _mnemonicToWallet(mnemonic: String, path: String): WritableMap {
-    val seed = MnemonicCode.toSeed(mnemonic, "")
-    val master = DeterministicWallet.generate(seed)
-    val path = KeyPath(path)
-    val account = DeterministicWallet.derivePrivateKey(master, path)
-    val xprv = DeterministicWallet.encode(master, testnet = false)
-    val address = computeBIP84Address(account.publicKey, Block.LivenetGenesisBlock.hash)
+    val seed =  SeedCalculator().calculateSeed(mnemonic, "");
+    val key = ExtendedPrivateKey.fromSeed(seed, Bitcoin.MAIN_NET)
+    val xprv = key.extendedBase58()
     return Arguments.createMap().apply {
-      putString("address", address)
-      putString("publicKey", account.publicKey.toString())
-      putString("privateKey", account.privateKey.toBase58(Base58.Prefix.SecretKey))
       putString("root32xprv", xprv)
+      putString("mnemonics", mnemonic)
     }
-  }
-
-
-  fun getPath(path: String): Int {
-    if (path.contains("m/44")) return DeterministicWallet.tpub
-    if (path.contains("m/49")) return DeterministicWallet.upub
-    if (path.contains("m/84")) return DeterministicWallet.zpub
-    else throw Exception("Invalid path")
   }
 }

@@ -1,10 +1,7 @@
 import { NativeModules } from 'react-native';
 
 interface WalletInfo {
-  address: string,
   mnemonics: string,
-  privateKey: string,
-  publicKey: string,
   root32xprv: string
 }
 

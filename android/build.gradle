@@ -5,13 +5,15 @@ buildscript {
   repositories {
     google()
     jcenter()
+    maven {
+      url 'https://dl.bintray.com/novacrypto/BIP/'
+    }
   }
 
   dependencies {
     classpath 'com.android.tools.build:gradle:3.2.1'
     // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
   }
 }
 
@@ -128,6 +130,6 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation("fr.acinq.bitcoin:bitcoin-kmp-jvm:0.7.1")
-  implementation 'fr.acinq.secp256k1:secp256k1-kmp-jni-android:0.5.2'
+  compile 'io.github.novacrypto:BIP32:2019.01.27'
+  compile 'io.github.novacrypto:BIP39:2019.01.27'
 }
