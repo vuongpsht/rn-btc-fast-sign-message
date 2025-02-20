@@ -8,6 +8,7 @@ buildscript {
     maven {
       url 'https://mvnrepository.com/artifact/io.github.novacrypto/BIP39'
     }
+    maven { url "https://nexus.web.cern.ch/nexus/content/repositories/public" }
   }
 
   dependencies {
@@ -57,7 +58,7 @@ repositories {
   mavenCentral()
   jcenter()
   google()
-
+  maven { url "https://nexus.web.cern.ch/nexus/content/repositories/public" }
   def found = false
   def defaultDir = null
   def androidSourcesName = 'React Native sources'
@@ -130,6 +131,6 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  compile 'io.github.novacrypto:BIP32:2019.01.27'
-  compile 'io.github.novacrypto:BIP39:2019.01.27'
+  implementation files('libs/BIP32-2019.01.27.jar')
+  implementation files('libs/BIP39-2019.01.27.jar')
 }
